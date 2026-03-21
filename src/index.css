@@ -1,0 +1,282 @@
+@import url("https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,500;0,600;0,700;1,500&family=DM+Sans:wght@300;400;500;600&display=swap");
+
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+/* ─────────────────────────────────────────────────────────────
+   :root — Design Tokens
+   All values mirror the keys in tailwind.config.js so that
+   CSS-in-JS, inline styles, and Tailwind classes stay in sync.
+   ───────────────────────────────────────────────────────────── */
+@layer base {
+  :root {
+    /* ── Brand Orange ─────────────────────────────────────── */
+    --color-brand-50: #fff5eb;
+    --color-brand-100: #ffe4c4;
+    --color-brand-200: #ffc88a;
+    --color-brand-300: #ffa54f;
+    --color-brand-400: #ff8724;
+    --color-brand-500: #e8731a; /* PRIMARY — logo orange   */
+    --color-brand-600: #c45a0c;
+    --color-brand-700: #9e4208;
+    --color-brand-800: #7a2f05;
+    --color-brand-900: #5c1f02;
+    --color-brand-950: #3d1001;
+
+    /* ── Surface / Background ─────────────────────────────── */
+    --color-surface-0: #ffffff;
+    --color-surface-50: #fbf8f5; /* page background        */
+    --color-surface-100: #f5efe7; /* cards / elevated       */
+    --color-surface-200: #ede4d8; /* dividers / borders     */
+    --color-surface-300: #ddd0bf;
+    --color-surface-400: #c4b09a;
+    --color-surface-500: #a08c75;
+    --color-surface-600: #7d6a56;
+    --color-surface-700: #5e4e3e;
+    --color-surface-800: #3d3028;
+    --color-surface-900: #221a12;
+
+    /* ── Ink / Text ───────────────────────────────────────── */
+    --color-ink-primary: #1c1611; /* headings / strong copy  */
+    --color-ink-secondary: #4a3728; /* body text               */
+    --color-ink-tertiary: #7d6a56; /* captions / meta         */
+    --color-ink-disabled: #b0a090;
+    --color-ink-inverse: #ffffff;
+
+    /* ── Accent — Teal (split-complement of brand orange) ─── */
+    --color-accent-teal: #0e7c7b;
+    --color-accent-teal-light: #14a8a7;
+    --color-accent-teal-subtle: #e6f5f5;
+
+    /* ── Accent — Gold (analogous warm sibling) ──────────── */
+    --color-accent-gold: #b8860b;
+    --color-accent-gold-light: #d4a017;
+    --color-accent-gold-subtle: #fdf7e3;
+
+    /* ── Semantic ─────────────────────────────────────────── */
+    --color-success: #2d7d46;
+    --color-success-subtle: #e8f5ed;
+    --color-warning: #b45309;
+    --color-warning-subtle: #fef3c7;
+    --color-error: #c0392b;
+    --color-error-subtle: #fdedeb;
+    --color-info: #1d6fa4;
+    --color-info-subtle: #e8f2fa;
+
+    /* ── Typography ───────────────────────────────────────── */
+    --font-display: "Playfair Display", Georgia, serif;
+    --font-body: "DM Sans", system-ui, sans-serif;
+    --font-mono: "JetBrains Mono", "Fira Code", monospace;
+
+    /* ── Radii ────────────────────────────────────────────── */
+    --radius-xs: 4px;
+    --radius-sm: 6px;
+    --radius-md: 10px;
+    --radius-lg: 16px;
+    --radius-xl: 24px;
+    --radius-2xl: 32px;
+    --radius-full: 9999px;
+
+    /* ── Shadows ──────────────────────────────────────────── */
+    --shadow-sm: 0 1px 4px rgba(28, 22, 17, 0.06);
+    --shadow-card: 0 2px 12px rgba(28, 22, 17, 0.08);
+    --shadow-hover: 0 8px 28px rgba(232, 115, 26, 0.18);
+    --shadow-glow: 0 0 0 3px rgba(232, 115, 26, 0.25);
+
+    /* ── Transitions ──────────────────────────────────────── */
+    --transition-fast: 100ms ease;
+    --transition-base: 150ms ease;
+    --transition-slow: 250ms ease;
+  }
+
+  /* ── Base resets aligned to token system ─────────────────── */
+  html {
+    background-color: var(--color-surface-50);
+    color: var(--color-ink-primary);
+    font-family: var(--font-body);
+    font-size: 16px;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+  }
+
+  h1,
+  h2,
+  h3,
+  h4,
+  h5,
+  h6 {
+    font-family: var(--font-display);
+    color: var(--color-ink-primary);
+    line-height: 1.25;
+  }
+
+  p,
+  span,
+  li,
+  td,
+  th,
+  label,
+  input,
+  textarea,
+  select {
+    font-family: var(--font-body);
+    color: var(--color-ink-secondary);
+    line-height: 1.6;
+  }
+
+  a {
+    color: var(--color-brand-600);
+    text-decoration: none;
+    transition: color var(--transition-base);
+  }
+  a:hover {
+    color: var(--color-brand-500);
+  }
+
+  *:focus-visible {
+    outline: 2px solid var(--color-brand-500);
+    outline-offset: 2px;
+    border-radius: var(--radius-sm);
+  }
+}
+
+/* ─────────────────────────────────────────────────────────────
+   @layer components — Reusable utility classes
+   Use these directly in JSX: className="btn-primary"
+   ───────────────────────────────────────────────────────────── */
+@layer components {
+  /* ── Buttons ──────────────────────────────────────────────── */
+  .btn {
+    @apply inline-flex items-center justify-center gap-2
+           font-body font-medium text-sm
+           px-5 py-2.5 rounded-md
+           transition-all duration-150
+           cursor-pointer select-none
+           focus-visible:outline-none focus-visible:ring-2
+           focus-visible:ring-brand-500 focus-visible:ring-offset-2
+           disabled:opacity-50 disabled:pointer-events-none;
+  }
+
+  .btn-primary {
+    @apply btn
+           bg-brand-500 text-white shadow-card
+           hover:bg-brand-600 active:bg-brand-700 active:scale-[.98];
+  }
+
+  .btn-outline {
+    @apply btn
+           border border-brand-500 text-brand-600
+           hover:bg-brand-50 active:bg-brand-100;
+  }
+
+  .btn-ghost {
+    @apply btn
+           bg-brand-50 text-brand-700
+           hover:bg-brand-100 active:bg-brand-200;
+  }
+
+  .btn-teal {
+    @apply btn
+           bg-accent-teal text-white
+           hover:bg-accent-teal-light active:scale-[.98];
+  }
+
+  .btn-danger {
+    @apply btn
+           bg-error text-white
+           hover:opacity-90 active:scale-[.98];
+  }
+
+  /* ── Cards ────────────────────────────────────────────────── */
+  .card {
+    @apply bg-surface-100 rounded-lg border border-surface-200
+           p-6 shadow-card;
+  }
+
+  .card-white {
+    @apply bg-white rounded-lg border border-surface-200
+           p-6 shadow-card;
+  }
+
+  .card-hover {
+    @apply card transition-shadow duration-200
+           hover:shadow-hover;
+  }
+
+  /* ── Badges ───────────────────────────────────────────────── */
+  .badge {
+    @apply inline-flex items-center gap-1
+           px-2.5 py-0.5 rounded-full
+           text-xs font-semibold font-body;
+  }
+
+  .badge-brand {
+    @apply badge bg-brand-50   text-brand-700;
+  }
+  .badge-teal {
+    @apply badge bg-accent-teal-subtle text-accent-teal;
+  }
+  .badge-gold {
+    @apply badge bg-accent-gold-subtle text-accent-gold;
+  }
+  .badge-success {
+    @apply badge bg-success-subtle text-success;
+  }
+  .badge-warning {
+    @apply badge bg-warning-subtle text-warning;
+  }
+  .badge-error {
+    @apply badge bg-error-subtle   text-error;
+  }
+  .badge-info {
+    @apply badge bg-info-subtle     text-info;
+  }
+
+  /* ── Form Inputs ──────────────────────────────────────────── */
+  .input {
+    @apply w-full px-3.5 py-2.5 rounded-md text-sm font-body
+           bg-white border border-surface-200
+           text-ink-primary placeholder:text-ink-disabled
+           transition-all duration-150
+           focus:outline-none focus:border-brand-500 focus:ring-2
+           focus:ring-brand-500/20
+           disabled:opacity-50 disabled:bg-surface-100;
+  }
+
+  .input-label {
+    @apply block text-sm font-medium text-ink-secondary mb-1.5;
+  }
+
+  .input-hint {
+    @apply text-xs text-ink-tertiary mt-1;
+  }
+
+  .input-error {
+    @apply text-xs text-error mt-1;
+  }
+
+  /* ── Stat / Metric Card ───────────────────────────────────── */
+  .stat-card {
+    @apply bg-surface-100 rounded-md p-4 border border-surface-200;
+  }
+
+  .stat-label {
+    @apply text-xs font-medium text-ink-tertiary mb-1;
+  }
+
+  .stat-value {
+    @apply text-2xl font-display font-semibold text-ink-primary;
+  }
+
+  /* ── Divider ──────────────────────────────────────────────── */
+  .divider {
+    @apply border-t border-surface-200 my-6;
+  }
+
+  /* ── Section heading ──────────────────────────────────────── */
+  .section-label {
+    @apply text-xs font-semibold tracking-widest uppercase
+           text-brand-600 mb-3;
+  }
+}
