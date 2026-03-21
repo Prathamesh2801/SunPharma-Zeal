@@ -5,9 +5,9 @@ import SunLogo from "../assets/img/SunPharmaLogo.png";
 import ArianLogo from "../assets/img/ArianLogo.png";
 import RiseLogo from "../assets/img/RiseLogo.png";
 import HighspeedFont from "../assets/fonts/HighspeedRegular-8MrOn.otf";
+import { BASE_URL } from "../../config";
 
-const SSE_URL = "http://192.168.1.88/MiniStack/sunpharma/sse_api.php";
-const BASE_URL = "http://192.168.1.88/MiniStack/sunpharma/";
+const SSE_URL = `${BASE_URL}/sse_api.php`;
 const GRID_COLS = 10;
 const GRID_ROWS = 4;
 const TOTAL = GRID_COLS * GRID_ROWS;
@@ -35,8 +35,7 @@ const T = {
   fontMono: "'JetBrains Mono', monospace",
 };
 
-const imgUrl = (path) => (path ? `${BASE_URL}${path}` : null);
-
+const imgUrl = (path) => (path ? `${BASE_URL}/${path}` : null);
 
 const loadCells = () => {
   try {
@@ -223,7 +222,7 @@ export default function TVDisplay() {
           width: "100vw",
           height: "100vh",
           // background: T.surface50,
-          background: 'black',
+          background: "black",
           display: "flex",
           flexDirection: "column",
           fontFamily: T.fontBody,
@@ -238,7 +237,7 @@ export default function TVDisplay() {
             justifyContent: "space-between",
             padding: "10px 24px",
             // background: T.surface0,
-            background: 'black',
+            background: "black",
             borderBottom: `1px solid ${T.surface200}`,
             boxShadow: "0 2px 12px rgba(28,22,17,0.08)",
             flexShrink: 0,
@@ -300,7 +299,7 @@ export default function TVDisplay() {
             Launch your Vision!
           </div>
 
-          <div style={{ width: 84, height: 'auto', marginRight: 30 }}>
+          <div style={{ width: 84, height: "auto", marginRight: 30 }}>
             <img
               src={SunLogo}
               alt="logo"
@@ -344,7 +343,7 @@ export default function TVDisplay() {
             justifyContent: "center",
             padding: "10px 24px",
             // background: T.surface0,
-            background: 'black',
+            background: "black",
             borderTop: `1px solid ${T.surface200}`,
             boxShadow: "0 2px 12px rgba(28,22,17,0.08)",
             flexShrink: 0,
@@ -352,14 +351,14 @@ export default function TVDisplay() {
             gap: 40,
           }}
         >
-          <div style={{ width: 74, height: 'auto' }}>
+          <div style={{ width: 74, height: "auto" }}>
             <img
               src={ArianLogo}
               alt="Arian Logo"
               style={{ width: "100%", height: "100%", objectFit: "contain" }}
             />
           </div>
-          <div style={{ width: 74, height: 'auto' }}>
+          <div style={{ width: 74, height: "auto" }}>
             <img
               src={RiseLogo}
               alt="Rise Logo"
@@ -719,7 +718,9 @@ function MiniCardContent({ entry }) {
           padding: "4px 6px 5px",
           display: "flex",
           flexDirection: "column",
-          justifyContent: "space-between",
+          justifyContent: "flex-start",
+          gap: "3px",
+          marginTop: "auto",
           overflow: "hidden",
         }}
       >
