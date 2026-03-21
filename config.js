@@ -1,1 +1,1 @@
-export const BASE_URL = 'http://192.168.1.88/MiniStack/sunpharma'
+export const BASE_URL = 'http://192.168.0.188/sunpharma'
