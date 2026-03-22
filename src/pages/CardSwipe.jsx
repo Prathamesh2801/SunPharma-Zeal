@@ -18,7 +18,10 @@ import {
 } from "lucide-react";
 import toast from "react-hot-toast";
 import { updateUserImage } from "../api/uploadAPI";
-import logo from "../assets/img/logo.png";
+
+import SunLogo from "../assets/img/SunPharmaLogo.png";
+import ArianLogo from "../assets/img/ArianLogo.png";
+import RiseLogo from "../assets/img/RiseLogo.png";
 
 // ── Token mirror ─────────────────────────────────────────────
 const T = {
@@ -58,6 +61,18 @@ export default function CardSwipe() {
   const location = useLocation();
   const entry = location.state?.entry ?? null;
 
+  // ── Dummy data for UI testing ──
+  const dummyEntry = {
+    fullName: "Mihir Karten",
+    comment:
+      "This is a test comment to check the UI. Set your goals and achieve them!",
+    filePath: "https://media.gettyimages.com/id/1337494696/photo/indian-man-studio-portrait.jpg?s=612x612&w=0&k=20&c=51Vt7ZQ7t4nbADtwVzRdFfp3D0wrQmwdgdKziMG1t04=",
+    fileName: "dummy.jpg",
+  };
+
+  // Use dummy data if no entry from navigation
+  const currentEntry = entry || dummyEntry;
+
   const [apiLoading, setApiLoading] = useState(true);
   const [swiped, setSwiped] = useState(false);
 
@@ -71,7 +86,7 @@ export default function CardSwipe() {
   const confirmOpacity = useTransform(
     y,
     [0, SWIPE_THRESHOLD / 2, SWIPE_THRESHOLD],
-    [0, 0.4, 1],
+    [0, 0.4, 1]
   );
 
   useEffect(() => {
@@ -87,7 +102,7 @@ export default function CardSwipe() {
     try {
       setApiLoading(true);
 
-      const filename = entry?.fileName;
+      const filename = currentEntry?.fileName;
       console.log("File Name  : ", filename);
       if (!filename) {
         toast.error("Missing image filename");
@@ -185,7 +200,7 @@ export default function CardSwipe() {
       <style>{cardCss}</style>
       <div
         style={{
-          minHeight: "100vh",
+          minHeight: "95vh",
           background: T.surface50,
           display: "flex",
           alignItems: "center",
@@ -194,6 +209,63 @@ export default function CardSwipe() {
           overflow: "hidden",
         }}
       >
+        {/* Top right logo */}
+        <motion.div
+          initial={{ opacity: 0, y: -8 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ delay: 0.1 }}
+          style={{
+            position: "absolute",
+            top: 20,
+            right: 20,
+            height: 50,
+            zIndex: 15,
+          }}
+        >
+          <img
+            src={RiseLogo}
+            alt="Rise Logo"
+            style={{
+              height: "100%",
+              objectFit: "contain",
+            }}
+          />
+        </motion.div>
+
+        {/* Bottom center logos */}
+        <motion.div
+          initial={{ opacity: 0, y: 8 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ delay: 0.15 }}
+          style={{
+            position: "absolute",
+            bottom: 20,
+            // left: "50%",
+            transform: "translateX(-50%)",
+            display: "flex",
+            alignItems: "center",
+            justifyContent: "center",
+            gap: 24,
+            zIndex: 15,
+          }}
+        >
+          <img
+            src={SunLogo}
+            alt="Sun Pharma Logo"
+            style={{
+              height: 45,
+              objectFit: "contain",
+            }}
+          />
+          <img
+            src={ArianLogo}
+            alt="Arian Logo"
+            style={{
+              height: 45,
+              objectFit: "contain",
+            }}
+          />
+        </motion.div>
         {/* ── Loading overlay ── */}
         <AnimatePresence>
           {apiLoading && (
@@ -293,7 +365,8 @@ export default function CardSwipe() {
                     marginTop: 6,
                   }}
                 >
-                  Submission confirmed for <strong>{entry.fullName}</strong>.
+                  Submission confirmed for{" "}
+                  <strong>{currentEntry.fullName}</strong>.
                 </p>
               </div>
               <button
@@ -428,7 +501,7 @@ export default function CardSwipe() {
             {/* Card */}
             <div
               style={{
-                background: T.surface0,
+                background: T.surface200,
                 borderRadius: 24,
                 overflow: "hidden",
                 boxShadow: T.shadowHover,
@@ -444,13 +517,13 @@ export default function CardSwipe() {
                 }}
               >
                 <img
-                  src={entry.filePath}
-                  alt={entry.fullName}
+                  src={currentEntry.filePath}
+                  alt={currentEntry.fullName}
                   draggable={false}
                   style={{
                     width: "100%",
                     height: "100%",
-                    objectFit: "contain",
+                    objectFit: "cover",
                     display: "block",
                     pointerEvents: "none",
                   }}
@@ -485,7 +558,7 @@ export default function CardSwipe() {
                       lineHeight: 1.2,
                     }}
                   >
-                    {entry.fullName}
+                    {currentEntry.fullName}
                   </p>
                   <div
                     style={{
@@ -506,12 +579,12 @@ export default function CardSwipe() {
                     display: "flex",
                     alignItems: "center",
                     gap: 5,
-                    
+
                     borderRadius: 999,
                     padding: "10px 10px",
                   }}
                 >
-                  <div
+                  {/* <div
                     style={{
                       width: "100%",
                       height: "100%",
@@ -530,7 +603,7 @@ export default function CardSwipe() {
                         opacity: 0.5,
                       }}
                     />
-                  </div>
+                  </div> */}
                 </div>
               </div>
 
@@ -564,7 +637,7 @@ export default function CardSwipe() {
                         textTransform: "uppercase",
                       }}
                     >
-                      Comment
+                      Set You Goal
                     </span>
                   </div>
                   <p
@@ -580,7 +653,7 @@ export default function CardSwipe() {
                       margin: 0,
                     }}
                   >
-                    {entry.comment}
+                    {currentEntry.comment}
                   </p>
                 </div>
 

@@ -8,8 +8,8 @@ import HighspeedFont from "../assets/fonts/HighspeedRegular-8MrOn.otf";
 import { BASE_URL } from "../../config";
 
 const SSE_URL = `${BASE_URL}/sse_api.php`;
-const GRID_COLS = 10;
-const GRID_ROWS = 4;
+const GRID_COLS = 9;
+const GRID_ROWS = 5;
 const TOTAL = GRID_COLS * GRID_ROWS;
 const LS_KEY = "sp_tv_cells";
 
@@ -203,16 +203,8 @@ export default function TVDisplay() {
     };
   }, [getNextCell, startFly]);
 
-  const clearGrid = () => {
-    setCells({});
-    saveCells({});
-    setPhase("idle");
-    setLiveEntry(null);
-    setTargetRect(null);
-    pendingEntry.current = null;
-  };
 
-  const filledCount = Object.keys(cells).length;
+ 
 
   return (
     <>
@@ -236,57 +228,15 @@ export default function TVDisplay() {
             alignItems: "center",
             justifyContent: "space-between",
             padding: "10px 24px",
-            // background: T.surface0,
-            background: "black",
+            background: T.surface0,
+            // background: "black",
             borderBottom: `1px solid ${T.surface200}`,
             boxShadow: "0 2px 12px rgba(28,22,17,0.08)",
             flexShrink: 0,
             zIndex: 10,
           }}
         >
-          <div
-            style={{
-              display: "flex",
-              alignItems: "center",
-              gap: 6,
-              background: T.brand50,
-              border: `1px solid ${T.brand200}`,
-              borderRadius: 999,
-              padding: "5px 14px",
-            }}
-          >
-            <Users size={13} style={{ color: T.brand500 }} />
-            <span
-              style={{
-                fontSize: 12,
-                fontWeight: 700,
-                color: T.brand600,
-                fontFamily: T.fontBody,
-              }}
-            >
-              {filledCount} / {TOTAL}
-            </span>
-            <motion.div
-              animate={pulse ? { scale: [1, 1.6, 1] } : {}}
-              transition={{ duration: 0.3 }}
-            >
-              {connected ? (
-                <Wifi size={13} style={{ color: T.success }} />
-              ) : (
-                <WifiOff size={13} style={{ color: "#C0392B" }} />
-              )}
-            </motion.div>
-            {/* <span
-              style={{
-                fontSize: 11,
-                fontWeight: 600,
-                color: connected ? T.success : "#C0392B",
-                fontFamily: T.fontBody,
-              }}
-            >
-              {connected ? "Live" : "Reconnecting…"}
-            </span> */}
-          </div>
+          <div></div>
 
           <div
             style={{
@@ -296,12 +246,12 @@ export default function TVDisplay() {
               fontFamily: "'Highspeed', sans-serif",
             }}
           >
-            Launch your Vision!
+            Engrave your Vision!
           </div>
 
-          <div style={{ width: 84, height: "auto", marginRight: 30 }}>
+          <div style={{ width: 64, height: "auto", marginRight: 30 }}>
             <img
-              src={SunLogo}
+              src={RiseLogo}
               alt="logo"
               style={{ width: "100%", height: "100%", objectFit: "contain" }}
             />
@@ -342,8 +292,8 @@ export default function TVDisplay() {
             alignItems: "center",
             justifyContent: "center",
             padding: "10px 24px",
-            // background: T.surface0,
-            background: "black",
+            background: T.surface0,
+            // background: "black",
             borderTop: `1px solid ${T.surface200}`,
             boxShadow: "0 2px 12px rgba(28,22,17,0.08)",
             flexShrink: 0,
@@ -358,9 +308,9 @@ export default function TVDisplay() {
               style={{ width: "100%", height: "100%", objectFit: "contain" }}
             />
           </div>
-          <div style={{ width: 74, height: "auto" }}>
+          <div style={{ width: 54, height: "auto" }}>
             <img
-              src={RiseLogo}
+              src={SunLogo}
               alt="Rise Logo"
               style={{ width: "100%", height: "100%", objectFit: "contain" }}
             />

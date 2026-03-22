@@ -5,6 +5,9 @@ import { User, MessageSquare, ArrowLeft, Send } from "lucide-react";
 import toast from "react-hot-toast";
 import { submitToAPI } from "../api/uploadAPI";
 import logo from "../assets/img/logo.png";
+import SunLogo from "../assets/img/SunPharmaLogo.png";
+import ArianLogo from "../assets/img/ArianLogo.png";
+import RiseLogo from "../assets/img/RiseLogo.png";
 const stagger = {
   hidden: { opacity: 0 },
   show: {
@@ -189,12 +192,13 @@ export default function SubmitForm() {
             display: "flex",
             alignItems: "center",
             justifyContent: "space-between",
-            padding: "16px 20px 12px",
+           
             background: T.surface50,
-            borderBottom: `1px solid ${T.surface200}`,
+            // borderBottom: `1px solid ${T.surface200}`,
             position: "sticky",
             top: 0,
             zIndex: 10,
+            position: "relative",
           }}
         >
           {/* Back */}
@@ -218,38 +222,29 @@ export default function SubmitForm() {
             <ArrowLeft size={17} />
           </button>
 
-          {/* Brand pill */}
-          <div
+          {/* Top right logo */}
+          <motion.div
+            initial={{ opacity: 0, y: -8 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ delay: 0.1 }}
             style={{
-              display: "inline-flex",
-              alignItems: "center",
-              gap: 6,
-             
-              padding: "5px 13px",
-              borderRadius: 999,
+              position: "absolute",
+              top: 3,
+              right: 20,
+              height: 50,
             }}
           >
-            <div
+            <img
+              src={RiseLogo}
+              alt="Rise Logo"
               style={{
-                width: "100%",
                 height: "100%",
-                display: "flex",
-                alignItems: "center",
-                justifyContent: "center",
+                objectFit: "contain",
               }}
-            >
-              <img
-                src={logo}
-                alt="logo"
-                style={{
-                  width: "auto",
-                  height: 48,
-                  objectFit: "contain",
-                  opacity: 0.5,
-                }}
-              />
-            </div>
-          </div>
+            />
+          </motion.div>
+
+         
 
           <div style={{ width: 38 }} />
         </motion.header>
@@ -260,7 +255,7 @@ export default function SubmitForm() {
             flex: 1,
             overflowY: "auto",
             overflowX: "hidden",
-            padding: "24px 16px 40px",
+            padding: "10px 16px 0px",
           }}
         >
           {/* Centred card on desktop */}
@@ -412,7 +407,7 @@ export default function SubmitForm() {
                       size={14}
                       style={{ color: T.brand500, flexShrink: 0 }}
                     />
-                    Full Name
+                    FullName
                   </label>
                   <input
                     type="text"
@@ -463,7 +458,7 @@ export default function SubmitForm() {
                       size={14}
                       style={{ color: T.brand500, flexShrink: 0 }}
                     />
-                    Comment
+                    Write your goal or objective for FY 26-27
                     <span
                       style={{
                         marginLeft: "auto",
@@ -472,7 +467,7 @@ export default function SubmitForm() {
                         color: T.inkDisabled,
                       }}
                     >
-                      {fields.comment.length}/300
+                      {fields.comment.length}/500
                     </span>
                   </label>
                   <textarea
@@ -480,7 +475,7 @@ export default function SubmitForm() {
                     onChange={handleChange("comment")}
                     placeholder="Write a message or observation…"
                     rows={4}
-                    maxLength={300}
+                    maxLength={500}
                     style={{
                       ...inputStyle("comment"),
                       resize: "none",
@@ -550,19 +545,36 @@ export default function SubmitForm() {
                 </button>
               </motion.div>
 
-              {/* Footer */}
-              <motion.p
+             
+
+              {/* Bottom center logos */}
+              <motion.div
                 variants={item}
                 style={{
-                  textAlign: "center",
-                  fontSize: 11,
-                  color: T.inkDisabled,
-                  fontFamily: T.fontBody,
-                  margin: 0,
+                  display: "flex",
+                  alignItems: "center",
+                  justifyContent: "center",
+                  gap: 24,
+               
                 }}
               >
-                Handled as per SunPharma privacy policy.
-              </motion.p>
+                <img
+                  src={SunLogo}
+                  alt="Sun Pharma Logo"
+                  style={{
+                    height: 45,
+                    objectFit: "contain",
+                  }}
+                />
+                <img
+                  src={ArianLogo}
+                  alt="Arian Logo"
+                  style={{
+                    height: 45,
+                    objectFit: "contain",
+                  }}
+                />
+              </motion.div>
             </motion.div>
           </div>
         </div>
@@ -570,7 +582,6 @@ export default function SubmitForm() {
     </>
   );
 }
-
 const btnPrimaryStyle = {
   width: "100%",
   display: "flex",

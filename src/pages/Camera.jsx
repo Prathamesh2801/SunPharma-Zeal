@@ -9,7 +9,9 @@ import {
   
 } from "lucide-react";
 import toast from "react-hot-toast";
-import logo from "../assets/img/logo.png";
+import SunLogo from "../assets/img/SunPharmaLogo.png";
+import ArianLogo from "../assets/img/ArianLogo.png";
+import RiseLogo from "../assets/img/RiseLogo.png";
 
 export default function Camera() {
   const navigate = useNavigate();
@@ -105,35 +107,24 @@ export default function Camera() {
             exit={{ opacity: 0 }}
             transition={{ duration: 0.3 }}
           >
+            {/* Top right logo */}
+            <motion.div
+              className="cr-logo-top-right"
+              initial={{ opacity: 0, y: -8 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ delay: 0.1 }}
+            >
+              <img
+                src={RiseLogo}
+                alt="Rise Logo"
+                style={{
+                  height: 50,
+                  objectFit: "contain",
+                }}
+              />
+            </motion.div>
+
             <div className="cr-idle-inner">
-              {/* <motion.div
-                className="cr-brand"
-                initial={{ opacity: 0, y: -8 }}
-                animate={{ opacity: 1, y: 0 }}
-                transition={{ delay: 0.1 }}
-              >
-                <div
-                  style={{
-                    width: "100%",
-                    height: "100%",
-                    display: "flex",
-                    alignItems: "center",
-                    padding: 20,
-                    justifyContent: "center",
-                  }}
-                >
-                  <img
-                    src={logo}
-                    alt="logo"
-                    style={{
-                      width: "auto",
-                      height: 58,
-                      objectFit: "contain",
-                      opacity: 0.5,
-                    }}
-                  />
-                </div>
-              </motion.div> */}
 
               <motion.div
                 className="cr-idle-icon"
@@ -180,6 +171,31 @@ export default function Camera() {
                 <CameraIcon size={18} /> Open Camera
               </motion.button>
             </div>
+
+            {/* Bottom center logos */}
+            <motion.div
+              className="cr-logo-bottom"
+              initial={{ opacity: 0, y: 8 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ delay: 0.5 }}
+            >
+              <img
+                src={SunLogo}
+                alt="Sun Pharma Logo"
+                style={{
+                  height: 45,
+                  objectFit: "contain",
+                }}
+              />
+              <img
+                src={ArianLogo}
+                alt="Arian Logo"
+                style={{
+                  height: 45,
+                  objectFit: "contain",
+                }}
+              />
+            </motion.div>
           </motion.div>
         )}
 
@@ -417,6 +433,22 @@ const css = `
     background: #FBF8F5;
     display: flex; align-items: center; justify-content: center;
   }
+
+  /* Top right logo */
+  .cr-logo-top-right {
+    position: absolute; top: 20px; right: 20px;
+    z-index: 10;
+  }
+
+  /* Bottom center logos */
+  .cr-logo-bottom {
+    position: absolute; bottom: 20px; 
+    transform: translateX(-50%);
+    display: flex; align-items: center; justify-content: center; gap: 24px;
+    width: auto; white-space: nowrap;
+    z-index: 10;
+  }
+
   .cr-idle-inner {
     display: flex; flex-direction: column;
     align-items: center; gap: 18px;
