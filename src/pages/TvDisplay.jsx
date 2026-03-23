@@ -69,6 +69,7 @@ export default function TVDisplay() {
   const [connected, setConnected] = useState(false);
   const [pulse, setPulse] = useState(false);
 
+  const phaseRef = useRef("idle");
   // target cell index for current entry
   const targetIdxRef = useRef(null);
   // ref map: cellIndex → DOM element
@@ -88,8 +89,12 @@ export default function TVDisplay() {
     return 0; // all full → reset
   }, []);
 
+  useEffect(() => {
+    phaseRef.current = phase;
+  }, [phase]);
   // ── Dismiss: capture cell rect then start fly phase ───────
   const startFly = useCallback(() => {
+    if (phaseRef.current !== "modal") return;
     const idx = targetIdxRef.current;
     const el = cellRefs.current[idx];
     if (!el) {
@@ -176,7 +181,7 @@ export default function TVDisplay() {
           idleTimerRef.current = setTimeout(() => {
             console.log("⏱ Auto-fly triggered");
             startFly();
-          }, DISPLAY_TIME);
+          }, 12000);
         } catch (err) {
           console.error("❌ Parse error:", err);
         }
@@ -186,12 +191,8 @@ export default function TVDisplay() {
         console.log("💓 heartbeat");
         setPulse(true);
         setTimeout(() => setPulse(false), 400);
-        // Heartbeat → start fly if modal is open
-        clearTimeout(idleTimerRef.current);
-        idleTimerRef.current = setTimeout(() => {
-          console.log("💓 Heartbeat fly");
-          startFly();
-        }, DISPLAY_TIME);
+
+        // 🚫 DO NOTHING with timer
       });
 
       es.addEventListener("error", () => {
