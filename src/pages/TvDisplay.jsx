@@ -356,14 +356,14 @@ export default function TVDisplay() {
             gap: 40,
           }}
         >
-          <div style={{ width: 74, height: "auto" }}>
+          <div style={{ width: 54, height: "auto" }}>
             <img
               src={ArianLogo}
               alt="Arian Logo"
               style={{ width: "100%", height: "100%", objectFit: "contain" }}
             />
           </div>
-          <div style={{ width: 54, height: "auto" }}>
+          <div style={{ width: 44, height: "auto" }}>
             <img
               src={SunLogo}
               alt="Rise Logo"
@@ -666,7 +666,7 @@ function MiniCardContent({ entry }) {
     >
       {/* Photo — top 62% */}
       <div
-        style={{ position: "relative", flex: "0 0 62%", overflow: "hidden" }}
+        style={{ position: "relative", flex: "0 0 60%", overflow: "hidden" }}
       >
         <img
           src={imgUrl(entry.Image_Path)}
@@ -721,27 +721,32 @@ function MiniCardContent({ entry }) {
       {/* Text — bottom 38% */}
       <div
         style={{
-          flex: "1 1 38%",
-          padding: "4px 6px 5px",
+          flex: "1",
+          padding: "1px 6px 5px",
           display: "flex",
           flexDirection: "column",
           justifyContent: "flex-start",
-          gap: "3px",
+          gap: 3,
           marginTop: "auto",
-          overflow: "hidden",
+          overflow: "visible",
         }}
       >
         <p
           style={{
             fontFamily: T.fontDisplay,
-            fontSize: 10,
+            fontSize: "clamp(12px, 1.2vw, 16px)",
             fontWeight: 700,
             color: T.inkPrimary,
             margin: 0,
-            lineHeight: 1.2,
-            overflow: "hidden",
-            textOverflow: "ellipsis",
-            whiteSpace: "nowrap",
+            lineHeight: 1.1,
+            // textOverflow: "ellipsis",
+            // display: "-webkit-box",
+            // WebkitLineClamp: 2,
+            // WebkitBoxOrient: "vertical",
+            // overflow: "hidden",
+            // wrap: "nowrap",
+            // wordBreak: "break-word",
+            // overflowWrap: "anywhere",
           }}
         >
           {entry.Name}
@@ -749,14 +754,16 @@ function MiniCardContent({ entry }) {
         <p
           style={{
             fontFamily: T.fontBody,
-            fontSize: 8,
+            fontSize: "clamp(10px, 1vw, 14px)",
             color: T.inkTertiary,
             margin: 0,
-            lineHeight: 1.3,
+            lineHeight: 1,
             overflow: "hidden",
-            display: "-webkit-box",
-            WebkitLineClamp: 2,
-            WebkitBoxOrient: "vertical",
+            // display: "-webkit-box",
+            // WebkitLineClamp: 1,
+            // WebkitBoxOrient: "vertical",
+            // wordBreak: "break-word",
+            // overflowWrap: "anywhere",
           }}
         >
           {entry.Comment}
