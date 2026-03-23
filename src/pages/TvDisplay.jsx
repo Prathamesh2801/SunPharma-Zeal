@@ -13,6 +13,11 @@ const GRID_ROWS = 5;
 const TOTAL = GRID_COLS * GRID_ROWS;
 const LS_KEY = "sp_tv_cells";
 
+const CARD_WIDTH = 520;
+const CARD_HEIGHT = 960;
+
+const DISPLAY_TIME = 12000; // 12 seconds
+
 // ── Design tokens ────────────────────────────────────────────
 const T = {
   surface0: "#FFFFFF",
@@ -171,7 +176,7 @@ export default function TVDisplay() {
           idleTimerRef.current = setTimeout(() => {
             console.log("⏱ Auto-fly triggered");
             startFly();
-          }, 6000);
+          }, DISPLAY_TIME);
         } catch (err) {
           console.error("❌ Parse error:", err);
         }
@@ -186,7 +191,7 @@ export default function TVDisplay() {
         idleTimerRef.current = setTimeout(() => {
           console.log("💓 Heartbeat fly");
           startFly();
-        }, 800);
+        }, DISPLAY_TIME);
       });
 
       es.addEventListener("error", () => {
@@ -203,8 +208,57 @@ export default function TVDisplay() {
     };
   }, [getNextCell, startFly]);
 
+  const clearGrid = () => {
+    setCells({});
+    saveCells({});
+    setPhase("idle");
+    setLiveEntry(null);
+    setTargetRect(null);
+    pendingEntry.current = null;
+  };
 
- 
+  // ─────────────────────────────────────────────────────────────
+  // Dummy / debug entry (can be removed after verification)
+  const dummyEntry = {
+    Name: "Mihir Karten",
+    Comment:
+      "This is a test comment to check the UI. Set your goals and achieve them!",
+    Image_Path:
+      "https://media.gettyimages.com/id/1337494696/photo/indian-man-studio-portrait.jpg?s=612x612&w=0&k=20&c=51Vt7ZQ7t4nbADtwVzRdFfp3D0wrQmwdgdKziMG1t04=",
+  };
+
+  const injectDummyEntry = () => {
+    // Mimic SSE `user` reception flow (modal then auto-fly)
+    setCells((prev) => {
+      const idx = getNextCell(prev);
+      targetIdxRef.current = idx;
+      pendingEntry.current = dummyEntry;
+      console.log("🎯 Dummy target cell:", idx);
+      return prev;
+    });
+
+    setLiveEntry(dummyEntry);
+    setPhase("modal");
+
+    clearTimeout(idleTimerRef.current);
+    idleTimerRef.current = setTimeout(() => {
+      console.log("⏱ Dummy auto-fly triggered");
+      startFly();
+    }, DISPLAY_TIME);
+  };
+
+  // Keyboard shortcut: press J to inject dummy entry (for debug during development)
+  // useEffect(() => {
+  //   const onKeydown = (event) => {
+  //     if (event.key.toLowerCase() === "j") {
+  //       event.preventDefault();
+  //       injectDummyEntry();
+  //     }
+  //   };
+
+  //   window.addEventListener("keydown", onKeydown);
+  //   return () => window.removeEventListener("keydown", onKeydown);
+  // }, []);
 
   return (
     <>
@@ -388,7 +442,7 @@ function ModalCard({ entry, onDismiss }) {
             damping: 26,
             mass: 0.9,
           }}
-          style={{ width: 400, pointerEvents: "auto" }}
+          style={{ width: CARD_WIDTH, pointerEvents: "auto" }}
         >
           <CardShell entry={entry} />
         </motion.div>
@@ -402,16 +456,16 @@ function ModalCard({ entry, onDismiss }) {
 // ─────────────────────────────────────────────────────────────
 function FlyingCard({ entry, targetRect, onComplete }) {
   // Start position: center of screen (400px wide card centered)
-  const startLeft = window.innerWidth / 2 - 200;
-  const startTop = window.innerHeight / 2 - 260; // approx card half-height
+  const startLeft = window.innerWidth / 2 - CARD_WIDTH / 2;
+  const startTop = window.innerHeight / 2 - CARD_HEIGHT / 2;
 
   return (
     <motion.div
       initial={{
         left: startLeft,
         top: startTop,
-        width: 400,
-        height: 520,
+        width: CARD_WIDTH,
+        height: CARD_HEIGHT,
         opacity: 1,
         borderRadius: 24,
         scale: 1,
@@ -515,13 +569,14 @@ function CardShell({ entry }) {
       <div
         style={{
           position: "relative",
-          height: 260,
+          height: 350,
           margin: "10px 14px 0",
           borderRadius: 16,
           overflow: "hidden",
         }}
       >
         <img
+          // src={entry.Image_Path}
           src={imgUrl(entry.Image_Path)}
           alt={entry.Name}
           style={{ width: "100%", height: "100%", objectFit: "cover" }}
@@ -626,6 +681,7 @@ function MiniCardContent({ entry }) {
           }}
         />
         <img
+          // src={entry.Image_Path}
           src={imgUrl(entry.Image_Path)}
           alt={entry.Name}
           style={{
